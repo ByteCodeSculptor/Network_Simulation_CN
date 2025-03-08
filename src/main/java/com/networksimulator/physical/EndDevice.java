@@ -4,37 +4,69 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EndDevice {
+
     private String name;
+    private String macAddress;
+    private int port;
     private List<Connection> connections;
 
-    // Initialize the connections list
-    public EndDevice(String name) {
+    // Constructor with MAC Address & Port Number for Data Link Layer
+    public EndDevice(String name, String macAddress, int port) {
         this.name = name;
-        this.connections = new ArrayList<>();  // Initialize the list
+        this.macAddress = macAddress;
+        this.port = port;
+        this.connections = new ArrayList<>();
     }
 
-    // Method to establish a connection to another EndDevice
+    // Overloaded constructor for automatic MAC Address and Port assignment
+    public EndDevice(String name) {
+        this.name = name;
+        this.macAddress = generateMacAddress(); // Generate a unique MAC
+        this.port = (int) (Math.random() * 100) + 1; // Assign a random port (1-100)
+        this.connections = new ArrayList<>();
+    }
+
+    // Generates a random MAC Address for simulation
+    private String generateMacAddress() {
+        return "00:0A:95:9D:68:" + String.format("%02X", (int) (Math.random() * 256));
+    }
+
+    // Method to connect this EndDevice to another device (Hub, Switch, etc.)
     public void connectTo(EndDevice device) {
-        // Create a new connection between this device and the other device
         Connection connection = new Connection(this, device);
-        connections.add(connection);  // Add this connection to the list of connections
-        System.out.println(name + " connected to " + device.getName());  // Log the connection
+        connections.add(connection);
+        System.out.println(name + " connected to " + device.getName());
     }
 
     // Method to send data to all connected devices
     public void sendData(String data) {
+        System.out.println(name + " is sending data: " + data);
         for (Connection connection : connections) {
-            connection.transmitData(data.getBytes());  // Send data to connected device(s)
+            connection.transmitData(data.getBytes()); // Convert data to bytes and transmit
         }
     }
 
-    // Method to receive data from another device
-    public void receiveData(byte[] data) {
-        System.out.println(name + " received data: " + new String(data));  // Display the received data
+    // Overloaded sendData() method for Hub support
+    public void sendData(String data, Hub hub) {
+        System.out.println(name + " is sending data to Hub: " + data);
+        hub.broadcastData(data.getBytes(), this); // Send data to the Hub for broadcast
     }
 
-    // Get the name of the device
+    // Method to receive data
+    public void receiveData(byte[] data) {
+        System.out.println(name + " received data: " + new String(data)); // Convert bytes to string
+    }
+
+    // Getters for necessary properties
     public String getName() {
         return name;
+    }
+
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public int getPort() {
+        return port;
     }
 }
