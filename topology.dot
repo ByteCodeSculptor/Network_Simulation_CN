@@ -1,0 +1,30 @@
+digraph NetworkTopology {
+  rankdir=LR;
+  subgraph cluster_N1 {
+    label="Network 1 (Star)";
+    "Device1_N1";
+    "Device2_N1";
+    "Device3_N1";
+    "Device4_N1";
+    "Device5_N1";
+    "Hub_N1" [shape=box];
+    "Device1_N1" -> "Hub_N1";
+    "Device2_N1" -> "Hub_N1";
+    "Device3_N1" -> "Hub_N1";
+    "Device4_N1" -> "Hub_N1";
+    "Device5_N1" -> "Hub_N1";
+  }
+  subgraph cluster_N2 {
+    label="Network 2 (Mesh)";
+    "Device1_N2";
+    "Device2_N2";
+    "Device3_N2";
+    "Device4_N2";
+    "Device5_N2";
+  }
+  "Bridge1" [shape=box, style=filled, color=grey];
+  "Bridge1" -> "Device1_N1";
+  "Device1_N1" -> "Bridge1";
+  "Bridge1" -> "Device1_N2";
+  "Device1_N2" -> "Bridge1";
+}
