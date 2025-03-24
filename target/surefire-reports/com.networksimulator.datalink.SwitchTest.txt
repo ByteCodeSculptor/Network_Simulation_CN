@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 Test set: com.networksimulator.datalink.SwitchTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.008 s <<< FAILURE! -- in com.networksimulator.datalink.SwitchTest
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.005 s <<< FAILURE! -- in com.networksimulator.datalink.SwitchTest
 com.networksimulator.datalink.SwitchTest.testMacAddressLearning -- Time elapsed: 0.001 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: Switch should forward data to Device2 ==> expected: <true> but was: <false>
 	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
