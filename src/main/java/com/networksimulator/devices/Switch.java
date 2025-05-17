@@ -109,10 +109,10 @@ public class Switch extends Device {
     /**
      * Prints the current MAC table to the terminal.
      */
-    public void printMACTable() {
+    public void printMACTable(String receiver) {
         System.out.println("[Switch: " + "InterNetworkSwitch" + "] MAC Table:");
         if (macTable.isEmpty()) {
-            System.out.println(name);
+            System.out.println(receiver);//updated here
         } else {
             for (Map.Entry<String, Device> entry : macTable.entrySet()) {
                 System.out.println("  MAC: " + entry.getKey() + " => Device: " + entry.getValue().getName());
@@ -136,4 +136,6 @@ public class Switch extends Device {
             floodFrame(data, this);
         }
     }
+
+    
 }

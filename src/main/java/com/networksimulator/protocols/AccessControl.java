@@ -6,6 +6,7 @@ public class AccessControl {
 
     // Simulates ALOHA access control for sending data
     public void sendData(String[] devices) {
+        
         Random rand = new Random();
 
         for (String device : devices) {

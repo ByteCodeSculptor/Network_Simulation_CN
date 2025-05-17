@@ -74,4 +74,12 @@ public class Hub extends Device {
             }
         }
     }
+    
+    public static String generateUniqueMacAddress(int deviceIndex) {
+        String oui = "AA:BB:CC"; // Fake vendor prefix
+        int part1 = (deviceIndex >> 16) & 0xFF;
+        int part2 = (deviceIndex >> 8) & 0xFF;
+        int part3 = deviceIndex & 0xFF;
+        return String.format("%s:%02X:%02X:%02X", oui, part1, part2, part3);
+    }
 }

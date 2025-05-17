@@ -63,14 +63,14 @@ public class Network {
     }
 
     /**
-     * Creates a Hybrid topology. For this simulation, it simply calls both
+     * Creates a Hybrid topology. 
      * createStarTopology and createMeshTopology.
      */
     public void createHybridTopology() {
         topologyType = "Hybrid";
         // Hybrid: First create a Star topology, then add additional mesh connections
         createStarTopology();
-        // Add mesh connections among all devices (if not already connected)
+        // Add mesh connections among all devices 
         for (int i = 0; i < devices.size(); i++) {
             for (int j = i + 1; j < devices.size(); j++) {
                 devices.get(i).connectTo(devices.get(j));
@@ -90,7 +90,7 @@ public class Network {
     /**
      * Returns the unique identifier of this network. This method is required by
      * the Router to identify the network.
-     *
+     * Still need to develop for layer3.
      * @return The network's unique ID.
      */
     public int getNetworkId() {

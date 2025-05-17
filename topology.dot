@@ -22,9 +22,25 @@ digraph NetworkTopology {
     "Device4_N2";
     "Device5_N2";
   }
+  subgraph cluster_N3 {
+    label="Network 3 (Star)";
+    "Device1_N3";
+    "Device2_N3";
+    "Device3_N3";
+    "Device4_N3";
+    "Device5_N3";
+    "Hub_N3" [shape=box];
+    "Device1_N3" -> "Hub_N3";
+    "Device2_N3" -> "Hub_N3";
+    "Device3_N3" -> "Hub_N3";
+    "Device4_N3" -> "Hub_N3";
+    "Device5_N3" -> "Hub_N3";
+  }
   "Bridge1" [shape=box, style=filled, color=grey];
   "Bridge1" -> "Device1_N1";
   "Device1_N1" -> "Bridge1";
   "Bridge1" -> "Device1_N2";
   "Device1_N2" -> "Bridge1";
+  "Bridge1" -> "Device1_N3";
+  "Device1_N3" -> "Bridge1";
 }

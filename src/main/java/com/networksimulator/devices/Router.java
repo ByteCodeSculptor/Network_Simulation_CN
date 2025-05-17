@@ -74,4 +74,5 @@ public class Router extends Device {
     public void receiveData(String data, Device sender) {
         System.out.println("[Router: " + name + "] Received data from " + sender.getName() + ": " + data);
     }
+
 }

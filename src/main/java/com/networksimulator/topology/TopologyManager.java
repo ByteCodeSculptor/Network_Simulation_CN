@@ -7,9 +7,9 @@ import java.util.Map;
 
 import com.networksimulator.devices.Bridge;
 import com.networksimulator.devices.Device;
+import com.networksimulator.devices.Hub;
 import com.networksimulator.devices.Router;
 import com.networksimulator.devices.Switch;
-import com.networksimulator.devices.Hub;
 
 /**
  * TopologyManager is responsible for managing multiple networks. It creates
@@ -114,12 +114,13 @@ public class TopologyManager {
         if (allDevices.isEmpty()) {
             System.out.println("No devices found.");
         }
+
         for (Device device : allDevices) {
-            System.out.println(device.getName());
+        System.out.println(device.getName());
             // Assuming allDevices is a Collection or List of Device objects
 
-        }
-        String[] devCol = allDevices.stream()
+        } 
+        String[] devCol = allDevices.stream() //this is to handle flow control and acess control
                 .map(Device::getName)
                 .toArray(String[]::new);
         return devCol;

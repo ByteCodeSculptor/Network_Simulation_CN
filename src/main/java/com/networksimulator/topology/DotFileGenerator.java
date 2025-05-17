@@ -20,15 +20,15 @@ public class DotFileGenerator {
      * @param topologyManager The TopologyManager containing all networks.
      * @return A String in DOT language representing the network topology.
      */
-    public static String generateDot(TopologyManager topologyManager) {
+    public static String generateDot(TopologyManager topologyManager) { //static method
         StringBuilder dot = new StringBuilder();
-        dot.append("digraph NetworkTopology {\n");
+        dot.append("digraph NetworkTopology {\n"); //its a directed graph
         dot.append("  rankdir=LR;\n"); // Left-to-right layout
 
         // Get all networks from the TopologyManager
         Map<Integer, Network> networks = topologyManager.getNetworks();
         if (networks == null || networks.isEmpty()) {
-            dot.append("  // No networks available\n");
+            dot.append("  // No networks available\n"); //if no networks are available in the collection
         } else {
             // Iterate over each network
             for (Network network : networks.values()) {
@@ -38,7 +38,7 @@ public class DotFileGenerator {
 
                 // Create nodes for each device in the network
                 for (Device device : network.getDevices()) {
-                    dot.append("    \"").append(device.getName()).append("\";\n");
+                    dot.append("    \"").append(device.getName()).append("\";\n"); //iterates the each device in the network and add to the dot file.
                 }
 
                 // If the network is Star, create a hub node and connect each device to it.
@@ -54,7 +54,6 @@ public class DotFileGenerator {
             }
         }
 
-        // If there's more than one network, add the chosen inter-network device
         if (networks.size() >= 2) {
             int connType = topologyManager.getInterConnectionType();
             switch (connType) {
@@ -79,20 +78,19 @@ public class DotFileGenerator {
                     connectInterNetworkDevice(dot, networks, "NetworkHub");
                     break;
                 default:
-                    // no valid inter-network device
+                    System.out.println("// no valid inter-network device");// no valid inter-network device
                     break;
             }
         }
 
         dot.append("}\n");
-        return dot.toString();
+        return dot.toString(); //return string for representing dot language for plotting he graph
     }
 
     /**
      * Helper method that connects the inter-network device to the first device
-     * of each network (if any). You can refine this logic as needed.
      */
-    private static void connectInterNetworkDevice(StringBuilder dot, Map<Integer, Network> networks, String deviceName) {
+    private static void connectInterNetworkDevice(StringBuilder dot, Map<Integer, Network> networks, String deviceName) { //to handle InterNetwork connection device
         for (Network net : networks.values()) {
             if (!net.getDevices().isEmpty()) {
                 // Connect the inter-network device to the first device in this network
@@ -100,7 +98,7 @@ public class DotFileGenerator {
                 dot.append("  \"").append(deviceName).append("\" -> \"")
                         .append(firstDevice.getName()).append("\";\n");
                 dot.append("  \"").append(firstDevice.getName()).append("\" -> \"")
-                        .append(deviceName).append("\";\n");
+                        .append(deviceName).append("\";\n");//adding the first device of each network to inter connection device.
             }
         }
     }
