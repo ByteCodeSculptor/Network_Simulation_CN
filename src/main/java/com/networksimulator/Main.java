@@ -14,6 +14,7 @@ import com.networksimulator.devices.Device;
 import com.networksimulator.devices.Hub;
 import com.networksimulator.devices.Router;
 import com.networksimulator.devices.Switch;
+import com.networksimulator.network.TransportLayer;
 import com.networksimulator.protocols.AccessControl;
 import com.networksimulator.protocols.ErrorControl;
 import com.networksimulator.protocols.FlowControl;
@@ -331,10 +332,45 @@ else if (connectionChoice == 1 || connectionChoice == 2) {
 writeMacTableToCSV(deviceMacMap, "MAC_Learning_Table.csv");
 writeIpTableToCSV(deviceIPMap, "IP_Learning_Table.csv");
 
+Router.mergeIpTables("IP_Learning_Table.csv", "Dummy_IP_table.csv"); //this calls the RIP protocol
+System.out.println("RIP protocol is implemented by sharing the routing tables");
 
 // 5.5 (Optional later) Run RIP dynamic updates
-            scanner.close(); //its not mandatory but good practice to release the resources and clean the memory.
-        
+
+// 6 phase 3: Transport Layer simulation begins
+System.out.println("");
+System.out.println("\n--- Phase 3: Transport Layer Simulation ---");
+
+TransportLayer tl = new TransportLayer();
+
+        // Assign well-known ports for services
+        int telnetPort = tl.assignPort("TelnetService", true);
+        int echoPort = tl.assignPort("EchoService", true);
+
+        // Assign ephemeral port to a client process
+        int clientPort = tl.assignPort("ClientProcess", false);
+
+        tl.printPortMapping();
+
+        // Application Layer: Telnet Service
+        TransportLayer.TelnetService telnet = new TransportLayer.TelnetService(tl, telnetPort);
+        telnet.sendCommand(clientPort, "whoami");
+        tl.receiveData(clientPort); // Client receives command
+
+        // Application Layer: Echo Service
+        TransportLayer.EchoService echo = new TransportLayer.EchoService(tl, echoPort);
+        echo.echoBack(clientPort, "Hello, World!");
+        tl.receiveData(clientPort); // Client receives echo
+
+        // Sliding Window Demo
+        tl.sendWithGoBackN(clientPort, telnetPort, "HELLO", 3);
+        // Receiving data using Go-Back-N (just simulation here)
+        tl.receiveData(telnetPort);
+        tl.receiveData(telnetPort);
+        tl.receiveData(telnetPort);
+        tl.receiveData(telnetPort);
+        tl.receiveData(telnetPort);
+scanner.close(); //its not mandatory but good practice to release the resources and clean the memory.
     }
 }
 //

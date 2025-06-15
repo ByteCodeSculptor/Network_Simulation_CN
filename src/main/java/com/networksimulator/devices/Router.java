@@ -1,7 +1,13 @@
 package com.networksimulator.devices;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.networksimulator.topology.Network;
 
@@ -75,4 +81,51 @@ public class Router extends Device {
         System.out.println("[Router: " + name + "] Received data from " + sender.getName() + ": " + data);
     }
 
+    /**
+     * Handles RIP (Routing Information Protocol) updates. This method is a placeholder
+     * By creating Dummy router with having Dummy_IP_table and exchnaging with main router
+     */
+        // Placeholder for RIP update handling logic.
+        public static void mergeIpTables(String file1, String file2) {
+            Map<String, String> combinedTable = new HashMap<>();
+
+        // Read from both files
+        try (BufferedReader br1 = new BufferedReader(new FileReader(file1));
+         BufferedReader br2 = new BufferedReader(new FileReader(file2))) {
+
+        // Read file1
+        String line;
+        boolean firstLine = true;
+        while ((line = br1.readLine()) != null) {
+            if (firstLine) { firstLine = false; continue; }
+            String[] parts = line.split(",");
+            if (parts.length == 2) combinedTable.put(parts[0].trim(), parts[1].trim());
+        }
+        // Read file2
+        firstLine = true;
+        while ((line = br2.readLine()) != null) {
+            if (firstLine) { firstLine = false; continue; }
+            String[] parts = line.split(",");
+            if (parts.length == 2) combinedTable.put(parts[0].trim(), parts[1].trim());
+        }
+        }
+         catch (Exception e) {
+        System.out.println("Error reading tables: " + e.getMessage());
+        return;
+        }
+
+        // Write combined map back to both files
+        try (PrintWriter writer1 = new PrintWriter(new FileWriter(file1));
+         PrintWriter writer2 = new PrintWriter(new FileWriter(file2))) {
+        writer1.println("Device,IP Address");
+        writer2.println("Device,IP Address");
+        for (Map.Entry<String, String> entry : combinedTable.entrySet()) {
+            writer1.println(entry.getKey() + "," + entry.getValue());
+            writer2.println(entry.getKey() + "," + entry.getValue());
+        }
+        System.out.println("Merged IP tables written to both files.");
+        } catch (Exception e) {
+        System.out.println("Error writing merged tables: " + e.getMessage());
+        }
+        }
 }
